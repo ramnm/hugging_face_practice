@@ -29,10 +29,20 @@ outputs['last_hidden_state'].shape
 from transformers import TFAutoModelForSequenceClassification
 model = TFAutoModelForSequenceClassification.from_pretrained(checkpoint)
 outputs = model(inputs)
+model.save_pretrained("sequence_class_base_model")
 
 outputs.keys()
-print(outputs['logits'])
+print(outputs['logits']) # Logits here don't mean the original definition which is log-odds, it is just the raw integer output from the neural network nodes
 
 predictions = tf.math.softmax(outputs.logits, axis=-1)
 print(predictions)
 model.config.id2label
+
+# Creating a transformer
+from transformers import BertConfig, TFBertModel
+
+config = BertConfig()
+model = TFBertModel(config)
+print(config)
+
+
